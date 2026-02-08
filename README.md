@@ -1,277 +1,202 @@
-# Protirokkha (প্রতিরক্ষা) - Community Safety Application
+# Protirokkha (প্রতিরক্ষা)
 
-A comprehensive community safety application with Flutter frontend and FastAPI backend.
+A modern, secure Flutter mobile app for community safety and emergency response in Bangladesh.
 
-## 🎯 Features
+## 🛡️ Overview
 
-### Mobile App (Flutter)
-- **Feed/News Screen**: Browse Bengali news articles with categories (News, OSINT, Global, Trending)
-- **SOS Emergency**: Trigger emergency alerts with location sharing
-- **Defender System**: Accept help requests and navigate to victims
-- **Emergency Contacts**: Manage up to 5 emergency contacts
-- **Profile & Settings**: User profile management and app settings
-- **Real-time Updates**: Quick messages and status updates during emergencies
+Protirokkha is a community safety application that enables users to:
+- Send emergency SOS alerts
+- Connect with nearby defenders
+- Manage emergency contacts
+- Stay informed about safety news
+- Verify identity through KYC
 
-### Backend API (FastAPI)
-- **OTP Authentication**: Phone-based authentication with JWT tokens
-- **User Management**: Profile setup and KYC verification
-- **SOS Events**: Emergency event management with defender tracking
-- **News Feed**: Bengali news articles with search and filtering
-- **Location Tracking**: Real-time defender location updates
-- **Notifications**: Emergency contact notifications
+## ✨ Features
 
-## 📱 Flutter UI Screens
+### 🔐 Authentication Flow
+- **Onboarding**: Interactive 3-page introduction in Bengali
+- **Phone Login**: Bangladesh phone number authentication (+88 prefix)
+- **OTP Verification**: 6-digit code verification with timer
+- **Account Setup**: NID-compliant user registration
 
-### Screen A: Feed/News List
-- Search bar with back arrow and profile avatar
-- 4 category filter chips (News, OSINT, Global, Trending)
-- News cards with Bengali headlines and thumbnails
-- Author and date information
+### 🚨 Emergency Features
+- **SOS Button**: Animated floating button for emergency alerts
+- **Victim Mode**: Bottom sheet showing help status, timer, and nearby defenders
+- **Defender Mode**: Accept/reject emergency requests with navigation
+- **Emergency Contacts**: Manage list of emergency contacts
 
-### Screen B: Defender Response Bottom Sheet
-- Red emergency card with warning icon
-- Victim information (name, age, location)
-- Progress bar showing defenders responding (3/10)
-- Distance and ETA information
-- Two action buttons: "View Location" and "Will Help"
+### 📱 Core Screens
+1. **Onboarding** - Welcome screens with Bengali text
+2. **Phone Login** - Phone number input with +88 prefix
+3. **OTP Verification** - 6-digit code input with resend option
+4. **Account Setup** - User registration form (Name, Email, DOB, Gender)
+5. **KYC Verification** - Face verification placeholder
+6. **Emergency Contacts** - Add/edit/delete emergency contacts
+7. **Home** - Google Maps placeholder with location marker
+8. **Feed** - Safety news and tips in Bengali
+9. **Profile** - User profile with settings
+10. **SOS Button** - Floating emergency button
+11. **Victim Bottom Sheet** - Emergency alert status for victims
+12. **Defender Bottom Sheet** - Emergency response for defenders
 
-### Screen C: Emergency Active Screen
-- Map view with multiple marker types
-- Three action buttons: "I'm Safe", "Light Signal", "Ring Phone"
-- Location type selector (Home, Road, Vehicle)
-- Quick message chips for communication
+## 🎨 Design System
 
-### Screen D: Defender Navigation Screen
-- Navigation map view
-- Cancel button ("Won't Defend")
-- Transport mode selector (Walk, Car, Bike)
-- ETA badge with time and distance
-- Quick message chips
+### Color Palette
+- **Primary Red**: `#D32F2F` - Emergency/SOS actions
+- **Secondary Green**: `#388E3C` - Defender/Safe status
+- **Background**: `#F5F5F5` / White
+- **Accent Yellow**: `#FFA726` - Warnings
+- **Text**: Dark grey/black on light, white on colored backgrounds
 
-### Screen E: Profile & Settings
-- User profile section with avatar and phone number
-- Settings menu with 6 options:
-  - Personal Information
-  - General
-  - Emergency Contacts
-  - Notification
-  - Connect Social Media
-  - Password
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-#### Flutter App
-- Flutter SDK 3.0.0 or higher
-- Dart SDK
-- Android Studio / Xcode (for mobile development)
-
-#### Backend
-- Python 3.10 or higher
-- pip package manager
-
-### Installation
-
-#### 1. Flutter App Setup
-
-```bash
-# Get dependencies
-flutter pub get
-
-# Run on device/emulator
-flutter run
-```
-
-#### 2. Backend Setup
-
-```bash
-# Navigate to backend directory
-cd backend
-
-# Create virtual environment (optional but recommended)
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Copy environment file
-cp .env.example .env
-
-# Run the server
-uvicorn main:app --reload --host 0.0.0.0 --port 8000
-```
-
-The backend API will be available at:
-- API: http://localhost:8000
-- Swagger Docs: http://localhost:8000/docs
-- ReDoc: http://localhost:8000/redoc
-
-### Testing the Backend
-
-```bash
-cd backend
-python test_backend.py
-```
+### UI Components
+- Rounded corners (12-16px radius)
+- Soft shadows (elevation 2-4)
+- Material 3 design
+- Bengali typography throughout
+- Responsive layouts
 
 ## 📁 Project Structure
 
 ```
-Protirokkha/
-├── lib/                        # Flutter source code
-│   ├── main.dart              # App entry point
-│   ├── core/                  # Core utilities
-│   │   └── theme/            # App theme
-│   └── features/             # Feature modules
-│       ├── feed/             # News feed
-│       │   └── screens/
-│       ├── sos/              # Emergency features
-│       │   ├── screens/
-│       │   └── widgets/
-│       ├── home/             # Home screen
-│       │   └── screens/
-│       └── profile/          # Profile & settings
-│           └── screens/
-├── backend/                   # FastAPI backend
-│   ├── main.py               # FastAPI app
-│   ├── requirements.txt      # Python dependencies
-│   ├── test_backend.py       # Test script
-│   └── app/                  # Backend application
-│       ├── config.py         # Configuration
-│       ├── database.py       # Database setup
-│       ├── models/           # SQLAlchemy models
-│       ├── schemas/          # Pydantic schemas
-│       ├── routers/          # API endpoints
-│       ├── services/         # Business logic
-│       ├── middleware/       # Auth middleware
-│       └── utils/            # Utilities
-├── pubspec.yaml              # Flutter dependencies
-├── analysis_options.yaml     # Flutter linter config
-└── README.md                 # This file
+lib/
+├── main.dart                 # App entry point
+├── app/
+│   ├── app.dart             # Main app widget
+│   ├── routes.dart          # Navigation routes
+│   └── theme.dart           # App theme configuration
+├── features/
+│   ├── onboarding/          # Onboarding screens
+│   ├── auth/                # Authentication screens
+│   ├── kyc/                 # KYC verification
+│   ├── emergency/           # Emergency contacts
+│   ├── home/                # Home screen with map
+│   ├── sos/                 # SOS button and bottom sheets
+│   ├── feed/                # News feed
+│   └── profile/             # User profile
+└── shared/
+    └── widgets/             # Reusable components
+        ├── custom_button.dart
+        ├── custom_text_field.dart
+        └── app_logo.dart
 ```
 
-## 🔌 API Endpoints
+## 🚀 Getting Started
 
-### Authentication
-- `POST /api/v1/auth/send-otp` - Send OTP
-- `POST /api/v1/auth/verify-otp` - Verify OTP and get token
+### Prerequisites
+- Flutter SDK (^3.5.0)
+- Dart SDK
+- Android Studio / VS Code
+- Android/iOS device or emulator
 
-### Users
-- `POST /api/v1/users/setup` - Complete account setup
-- `GET /api/v1/users/me` - Get current user profile
-- `PUT /api/v1/users/me` - Update profile
+### Installation
 
-### Emergency Contacts
-- `GET /api/v1/emergency-contacts/` - List contacts
-- `POST /api/v1/emergency-contacts/` - Add contact (max 5)
-- `PUT /api/v1/emergency-contacts/{id}` - Update contact
-- `DELETE /api/v1/emergency-contacts/{id}` - Delete contact
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/ahemon369/Protirokkha.git
+   cd Protirokkha
+   ```
 
-### SOS Events
-- `POST /api/v1/sos/trigger` - Trigger emergency
-- `PUT /api/v1/sos/{id}/cancel` - Cancel SOS
-- `PUT /api/v1/sos/{id}/safe` - Mark as safe
-- `GET /api/v1/sos/{id}/status` - Get status
+2. **Install dependencies**
+   ```bash
+   flutter pub get
+   ```
 
-### Defenders
-- `POST /api/v1/defenders/{sos_id}/accept` - Accept help request
-- `PUT /api/v1/defenders/{sos_id}/location` - Update location
-- `PUT /api/v1/defenders/{sos_id}/arrived` - Mark as arrived
-- `GET /api/v1/defenders/nearby` - Get nearby defenders
+3. **Run the app**
+   ```bash
+   flutter run
+   ```
 
-### News Feed
-- `GET /api/v1/feed/` - List news articles
-- `GET /api/v1/feed/{id}` - Get article detail
-- `GET /api/v1/feed/search/` - Search news
+### Development
 
-## 🗄️ Database Models
+- **Format code**: `flutter format .`
+- **Analyze code**: `flutter analyze`
+- **Run tests**: `flutter test`
 
-- **User**: User accounts and profiles
-- **EmergencyContact**: Emergency contacts (max 5 per user)
-- **SOSEvent**: Emergency events with location
-- **Defender**: Defender responses to SOS events
-- **NewsFeed**: Bengali news articles
+## 🔧 Configuration
+
+### Dependencies
+- `google_maps_flutter: ^2.9.0` - Google Maps integration
+- `go_router: ^14.6.2` - Navigation and routing
+- `cupertino_icons: ^1.0.8` - iOS-style icons
+
+## 📖 Usage Guide
+
+### Navigation Flow
+1. **First Launch**: Onboarding screens → Phone login
+2. **Authentication**: Phone number → OTP verification → Account setup
+3. **Setup**: KYC verification → Emergency contacts → Home screen
+4. **Main App**: Home ↔ Feed ↔ Emergency ↔ Profile
+
+### SOS Emergency
+1. Tap the red SOS button on home screen
+2. Emergency alert is sent to nearby defenders
+3. View help status in victim bottom sheet
+4. Cancel if false alarm
+
+### Defender Response
+1. Receive emergency notification
+2. View victim details in defender bottom sheet
+3. Accept to navigate or reject if unable to help
+
+## 🌐 Localization
+
+The app is primarily in **Bengali (বাংলা)** with key features:
+- All UI text in Bengali
+- Bengali number formatting
+- Bengali date/time display
+- English fallback for technical terms
 
 ## 🔒 Security Features
 
-- JWT-based authentication
-- OTP verification with expiry (5 minutes)
-- Password hashing with bcrypt
-- CORS configuration
-- Input validation with Pydantic
-- Rate limiting (planned)
+- Phone number authentication
+- OTP-based verification
+- NID-compliant registration
+- Location privacy controls
+- Secure emergency broadcasts
 
-## 🌍 Bengali Language Support
+## 🎯 Future Enhancements
 
-The application fully supports Bengali (বাংলা) text throughout:
-- News articles and headlines
-- UI labels and buttons
-- User names and messages
-- Error messages
+- [ ] Firebase Authentication integration
+- [ ] Real-time Firestore database
+- [ ] Google Maps API integration
+- [ ] Push notifications
+- [ ] Real-time location tracking
+- [ ] Chat between victim and defender
+- [ ] Community ratings and reviews
+- [ ] Multi-language support (English, Bengali)
 
-## 📝 Sample Data
+## 📱 Screenshots
 
-### Sample User
-- Name: Rahimul Rahat
-- Phone: +8801734893480
-- Status: Verified
+> Screenshots will be added once the app is running on a device/emulator
 
-### Sample News Articles
-- মোটরসাইকেল থেকে নামিয়ে তরুণকে এলোপাতাড়ি কোপ, হাসপাতালে মৃত্যু
-- চুরির অভিযোগে সালিসের পর গাছে ঝুলছিল যুবকের লাশ
-- নোয়াখালী বিভাগের দাবিতে মাইজদীতে বিক্ষোভ
-- 'বন্ধুকে ভিডিও কলে' রেখে বিশ্ববিদ্যালয় ছাত্রীর গলায় ফাঁস
-- নোয়াখালীতে প্রশিক্ষণের গাড়ি পুকুরে পড়ে তরুণের মৃত্যু
-- চট্টগ্রামে সাইবার অপরাধ বৃদ্ধির প্রবণতা
+## 🤝 Contributing
 
-## 🧪 Testing
+Contributions are welcome! Please follow these steps:
 
-### Backend Testing
-```bash
-cd backend
-python test_backend.py
-```
-
-### API Testing with cURL
-
-```bash
-# Send OTP
-curl -X POST http://localhost:8000/api/v1/auth/send-otp \
-  -H "Content-Type: application/json" \
-  -d '{"phone": "+8801734893480"}'
-
-# Get News Feed
-curl http://localhost:8000/api/v1/feed/
-```
-
-## 🚧 Future Enhancements
-
-- Real-time WebSocket connections
-- Push notifications
-- SMS integration for OTP
-- Google Maps integration
-- Real-time defender tracking
-- Video call support
-- Police/Emergency services integration
-- Community verification system
-- Incident reporting and analytics
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 ## 📄 License
 
-MIT License
+This project is licensed under the MIT License - see the LICENSE file for details.
 
-## 👥 Contributors
+## 👥 Authors
 
-- ahemon369
+- **ahemon369** - Initial work
 
 ## 🙏 Acknowledgments
 
+- Design inspiration from modern safety apps
+- Bengali community for language support
 - Flutter team for the amazing framework
-- FastAPI for the modern Python web framework
-- SQLAlchemy for database ORM
-- All contributors and supporters of the project
+
+## 📞 Support
+
+For support, email support@protirokkha.com or join our community forum.
 
 ---
 
-**Made with ❤️ for community safety**
+Made with ❤️ in Bangladesh 🇧🇩

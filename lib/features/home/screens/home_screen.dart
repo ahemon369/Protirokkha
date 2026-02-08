@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../feed/screens/feed_screen.dart';
-import '../../sos/screens/emergency_active_screen.dart';
-import '../../sos/screens/defender_navigation_screen.dart';
-import '../../sos/widgets/defender_bottom_sheet.dart';
-import '../../profile/screens/profile_screen.dart';
+import '../../../app/routes.dart';
+import '../../sos/widgets/sos_button.dart';
+import '../../sos/widgets/victim_bottom_sheet.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -13,181 +11,153 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  int _currentIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: const Text(
-          'প্রতিরক্ষা - Protirokkha',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Colors.black,
-          ),
-        ),
-        backgroundColor: Colors.white,
-        elevation: 0,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.person, color: Colors.black),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const ProfileScreen(),
-                ),
-              );
-            },
+      body: Stack(
+        children: [
+          // Main content based on selected tab
+          _buildContent(),
+          // Floating SOS button
+          Positioned(
+            bottom: 80,
+            left: 0,
+            right: 0,
+            child: Center(
+              child: SosButton(
+                onPressed: () {
+                  _showVictimBottomSheet();
+                },
+              ),
+            ),
           ),
         ],
       ),
-      body: Center(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        onTap: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
+          // Navigate to different screens
+          if (index == 1) {
+            Navigator.pushNamed(context, AppRoutes.feed);
+          } else if (index == 3) {
+            Navigator.pushNamed(context, AppRoutes.profile);
+          }
+        },
+        type: BottomNavigationBarType.fixed,
+        selectedItemColor: const Color(0xFFD32F2F),
+        unselectedItemColor: const Color(0xFF757575),
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'হোম',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.newspaper),
+            label: 'ফিড',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.emergency),
+            label: 'জরুরি',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'প্রোফাইল',
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildContent() {
+    return Column(
+      children: [
+        // App bar
+        Container(
+          padding: const EdgeInsets.only(top: 40, left: 16, right: 16, bottom: 16),
+          color: const Color(0xFFD32F2F),
+          child: Row(
             children: [
-              // Logo placeholder
-              Container(
-                width: 120,
-                height: 120,
-                decoration: BoxDecoration(
-                  color: const Color(0xFF4CAF50),
-                  borderRadius: BorderRadius.circular(60),
-                ),
-                child: const Icon(
-                  Icons.shield,
-                  size: 60,
-                  color: Colors.white,
-                ),
-              ),
-              const SizedBox(height: 32),
-              
-              const Text(
-                'প্রতিরক্ষা',
-                style: TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                'Community Safety Application',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.grey[600],
-                ),
-              ),
-              const SizedBox(height: 48),
-              
-              // Navigation buttons
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton.icon(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const FeedScreen(),
-                      ),
-                    );
-                  },
-                  icon: const Icon(Icons.article),
-                  label: const Text('News Feed'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF4CAF50),
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
+              const Expanded(
+                child: Text(
+                  'প্রতিরক্ষা',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
-              const SizedBox(height: 16),
-              
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton.icon(
-                  onPressed: () {
-                    showDefenderBottomSheet(context);
-                  },
-                  icon: const Icon(Icons.warning),
-                  label: const Text('Show Defender Response'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFFEF5350),
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 16),
-              
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton.icon(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const EmergencyActiveScreen(),
-                      ),
-                    );
-                  },
-                  icon: const Icon(Icons.emergency),
-                  label: const Text('Emergency Active'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.orange,
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 16),
-              
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton.icon(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const DefenderNavigationScreen(),
-                      ),
-                    );
-                  },
-                  icon: const Icon(Icons.navigation),
-                  label: const Text('Defender Navigation'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 16),
-              
-              SizedBox(
-                width: double.infinity,
-                child: OutlinedButton.icon(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const ProfileScreen(),
-                      ),
-                    );
-                  },
-                  icon: const Icon(Icons.person),
-                  label: const Text('Profile & Settings'),
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: const Color(0xFF4CAF50),
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                  ),
-                ),
+              IconButton(
+                icon: const Icon(Icons.notifications, color: Colors.white),
+                onPressed: () {},
               ),
             ],
           ),
         ),
-      ),
+        // Map placeholder
+        Expanded(
+          child: Container(
+            color: const Color(0xFFE0E0E0),
+            child: Stack(
+              children: [
+                Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.map,
+                        size: 100,
+                        color: Colors.grey.shade600,
+                      ),
+                      const SizedBox(height: 16),
+                      Text(
+                        'Google Maps Placeholder',
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.grey.shade600,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        'আপনার অবস্থান এখানে দেখা যাবে',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.grey.shade500,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                // User location marker
+                const Positioned(
+                  top: 100,
+                  left: 100,
+                  child: Icon(
+                    Icons.my_location,
+                    color: Color(0xFFD32F2F),
+                    size: 40,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  void _showVictimBottomSheet() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => const VictimBottomSheet(),
     );
   }
 }

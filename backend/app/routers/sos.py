@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
-from datetime import datetime
+from datetime import datetime, timezone
 from app.database import get_db
 from app.schemas.sos_event import (
     SOSEventCreate,
@@ -60,7 +60,7 @@ async def cancel_sos(
         )
     
     sos_event.status = "cancelled"
-    sos_event.resolved_at = datetime.utcnow()
+    sos_event.resolved_at = datetime.now(timezone.utc)
     await db.commit()
     await db.refresh(sos_event)
     return sos_event
@@ -88,7 +88,7 @@ async def mark_safe(
         )
     
     sos_event.status = "resolved"
-    sos_event.resolved_at = datetime.utcnow()
+    sos_event.resolved_at = datetime.now(timezone.utc)
     await db.commit()
     await db.refresh(sos_event)
     

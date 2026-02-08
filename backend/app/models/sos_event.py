@@ -1,6 +1,6 @@
 from sqlalchemy import Column, String, Float, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
-from datetime import datetime
+from datetime import datetime, timezone
 import uuid
 from app.database import Base
 
@@ -15,7 +15,7 @@ class SOSEvent(Base):
     location_type = Column(String, nullable=True)  # home, road, vehicle
     status = Column(String, default="active")  # active, cancelled, resolved
     message = Column(String, nullable=True)
-    created_at = Column(DateTime, default=datetime.utcnow)
+    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
     resolved_at = Column(DateTime, nullable=True)
     
     # Relationships

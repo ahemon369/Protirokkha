@@ -1,6 +1,6 @@
 from sqlalchemy import Column, String, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
-from datetime import datetime
+from datetime import datetime, timezone
 import uuid
 from app.database import Base
 
@@ -13,7 +13,7 @@ class EmergencyContact(Base):
     name = Column(String, nullable=False)
     phone = Column(String, nullable=False)
     relationship_type = Column(String, nullable=True)  # family, friend, etc.
-    created_at = Column(DateTime, default=datetime.utcnow)
+    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
     
     # Relationships
     user = relationship("User", back_populates="emergency_contacts")

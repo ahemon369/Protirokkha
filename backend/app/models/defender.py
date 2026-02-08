@@ -1,6 +1,6 @@
 from sqlalchemy import Column, String, Float, Integer, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
-from datetime import datetime
+from datetime import datetime, timezone
 import uuid
 from app.database import Base
 
@@ -15,7 +15,7 @@ class Defender(Base):
     transport_mode = Column(String, nullable=True)  # walk, car, bike
     eta_minutes = Column(Float, nullable=True)
     distance_km = Column(Float, nullable=True)
-    created_at = Column(DateTime, default=datetime.utcnow)
+    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
     
     # Relationships
     user = relationship("User", back_populates="defender_actions")

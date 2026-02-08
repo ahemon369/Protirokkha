@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Optional, Dict
 from app.utils.helpers import generate_otp
 from app.config import settings
@@ -12,7 +12,7 @@ class OTPService:
     def generate_and_store_otp(phone: str) -> str:
         """Generate OTP and store it with expiry"""
         otp = generate_otp()
-        expiry = datetime.utcnow() + timedelta(seconds=settings.OTP_EXPIRY_SECONDS)
+        expiry = datetime.now(timezone.utc) + timedelta(seconds=settings.OTP_EXPIRY_SECONDS)
         
         otp_storage[phone] = {
             "otp": otp,
@@ -34,7 +34,7 @@ class OTPService:
         stored_data = otp_storage[phone]
         
         # Check expiry
-        if datetime.utcnow() > stored_data["expiry"]:
+        if datetime.now(timezone.utc) > stored_data["expiry"]:
             del otp_storage[phone]
             return False
         

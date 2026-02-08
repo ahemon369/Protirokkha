@@ -154,11 +154,11 @@ class _EmergencyActiveScreenState extends State<EmergencyActiveScreen> {
                     spacing: 8,
                     runSpacing: 8,
                     children: [
-                      _buildMessageChip('আসছি দ্রুত', 'coming_fast_1'),
+                      _buildMessageChip('আসছি দ্রুত', 'coming_fast'),
                       _buildMessageChip('রাস্তা খুঁজে পাচ্ছি না', 'cant_find_road'),
                       _buildMessageChip('999', 'emergency_999'),
                       _buildMessageChip('আমি পৌঁছে গেছি', 'arrived'),
-                      _buildMessageChip('আসছি দ্রুত', 'coming_fast_2'),
+                      _buildMessageChip('সাহায্য প্রয়োজন', 'need_help'),
                       _buildMessageChip('Doctor', 'doctor'),
                     ],
                   ),

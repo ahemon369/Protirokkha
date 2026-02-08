@@ -1,6 +1,6 @@
 from sqlalchemy import Column, String, Boolean, DateTime
 from sqlalchemy.orm import relationship
-from datetime import datetime
+from datetime import datetime, timezone
 import uuid
 from app.database import Base
 
@@ -17,7 +17,7 @@ class User(Base):
     avatar_url = Column(String, nullable=True)
     kyc_status = Column(String, default="pending")  # pending, verified, rejected
     is_active = Column(Boolean, default=True)
-    created_at = Column(DateTime, default=datetime.utcnow)
+    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
     
     # Relationships
     emergency_contacts = relationship("EmergencyContact", back_populates="user", cascade="all, delete-orphan")

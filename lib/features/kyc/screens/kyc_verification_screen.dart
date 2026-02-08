@@ -10,54 +10,114 @@ class KycVerificationScreen extends StatefulWidget {
 }
 
 class _KycVerificationScreenState extends State<KycVerificationScreen> {
-  bool _isLoading = false;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('ভেরিফিকেশন'),
+        backgroundColor: Colors.white,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Color(0xFF212121)),
+          onPressed: () => Navigator.pop(context),
+        ),
+        title: const Text(
+          'ছবি তুলুন',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+            color: Color(0xFF212121),
+          ),
+        ),
         centerTitle: true,
       ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(24.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Spacer(),
-              // Camera placeholder
-              Container(
-                width: 200,
-                height: 200,
-                decoration: BoxDecoration(
-                  color: const Color(0xFFF5F5F5),
-                  borderRadius: BorderRadius.circular(100),
-                  border: Border.all(
-                    color: const Color(0xFFD32F2F),
-                    width: 4,
+              // Camera circle with viewfinder corners
+              Stack(
+                alignment: Alignment.center,
+                children: [
+                  // Main grey circle with face icon
+                  Container(
+                    width: 250,
+                    height: 250,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFF5F5F5),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.face,
+                      size: 100,
+                      color: Color(0xFF9E9E9E),
+                    ),
                   ),
-                ),
-                child: const Icon(
-                  Icons.camera_alt,
-                  size: 80,
-                  color: Color(0xFF757575),
-                ),
+                  // Top-left corner bracket
+                  Positioned(
+                    top: 0,
+                    left: 0,
+                    child: _buildCornerBracket(true, true),
+                  ),
+                  // Top-right corner bracket
+                  Positioned(
+                    top: 0,
+                    right: 0,
+                    child: _buildCornerBracket(true, false),
+                  ),
+                  // Bottom-left corner bracket
+                  Positioned(
+                    bottom: 0,
+                    left: 0,
+                    child: _buildCornerBracket(false, true),
+                  ),
+                  // Bottom-right corner bracket
+                  Positioned(
+                    bottom: 0,
+                    right: 0,
+                    child: _buildCornerBracket(false, false),
+                  ),
+                ],
               ),
               const SizedBox(height: 40),
-              // Instructions
-              const Text(
-                'মুখ যাচাইকরণ',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF212121),
+              // Info tips row
+              InkWell(
+                onTap: () {
+                  _showPhotoTips();
+                },
+                child: Container(
+                  padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF5F5F5),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.info_outline,
+                        color: Color(0xFF2196F3),
+                        size: 20,
+                      ),
+                      SizedBox(width: 8),
+                      Text(
+                        'ছবি তোলার টিপস',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Color(0xFF212121),
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 24),
+              // Instruction text
               const Text(
-                'ক্যামেরার সামনে আপনার মুখ রাখুন এবং ভেরিফাই করুন',
+                'আপনার পরিচয় যাচাই করার জন্য আমাদের আপনার সেলফি প্রয়োজন',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 14,
@@ -65,43 +125,111 @@ class _KycVerificationScreenState extends State<KycVerificationScreen> {
                   height: 1.5,
                 ),
               ),
-              const SizedBox(height: 16),
-              // Progress indicator
-              LinearProgressIndicator(
-                value: 0.5,
-                backgroundColor: const Color(0xFFE0E0E0),
-                valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFFD32F2F)),
-                minHeight: 8,
-                borderRadius: BorderRadius.circular(4),
-              ),
               const Spacer(),
-              // Verify button
+              // Start button
               CustomButton(
-                text: 'ভেরিফাই করুন',
+                text: 'শুরু করুন',
                 onPressed: () {
                   // Navigate to emergency contacts screen
                   Navigator.pushNamed(context, AppRoutes.emergencyContacts);
                 },
-                isLoading: _isLoading,
               ),
-              const SizedBox(height: 12),
-              // Skip button
-              TextButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, AppRoutes.emergencyContacts);
-                },
-                child: const Text(
-                  'পরে করব',
-                  style: TextStyle(
-                    color: Color(0xFF757575),
-                    fontSize: 16,
-                  ),
-                ),
-              ),
+              const SizedBox(height: 16),
             ],
           ),
         ),
       ),
     );
   }
+
+  // Helper method to build corner brackets/viewfinder marks
+  Widget _buildCornerBracket(bool isTop, bool isLeft) {
+    return SizedBox(
+      width: 40,
+      height: 40,
+      child: CustomPaint(
+        painter: _CornerBracketPainter(isTop: isTop, isLeft: isLeft),
+      ),
+    );
+  }
+
+  void _showPhotoTips() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Row(
+          children: [
+            Icon(Icons.info_outline, color: Color(0xFF2196F3)),
+            SizedBox(width: 8),
+            Text('ছবি তোলার টিপস'),
+          ],
+        ),
+        content: const Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('• পর্যাপ্ত আলোতে ছবি তুলুন'),
+            SizedBox(height: 8),
+            Text('• আপনার মুখ পরিষ্কারভাবে দেখা যায় তা নিশ্চিত করুন'),
+            SizedBox(height: 8),
+            Text('• চশমা বা টুপি খুলে ছবি তুলুন'),
+            SizedBox(height: 8),
+            Text('• ক্যামেরার দিকে সরাসরি তাকান'),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('বুঝেছি'),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// Custom painter for corner brackets
+class _CornerBracketPainter extends CustomPainter {
+  final bool isTop;
+  final bool isLeft;
+
+  _CornerBracketPainter({required this.isTop, required this.isLeft});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = const Color(0xFFD32F2F)
+      ..strokeWidth = 3
+      ..style = PaintingStyle.stroke
+      ..strokeCap = StrokeCap.round;
+
+    final path = Path();
+
+    if (isTop && isLeft) {
+      // Top-left corner
+      path.moveTo(size.width, 0);
+      path.lineTo(0, 0);
+      path.lineTo(0, size.height);
+    } else if (isTop && !isLeft) {
+      // Top-right corner
+      path.moveTo(0, 0);
+      path.lineTo(size.width, 0);
+      path.lineTo(size.width, size.height);
+    } else if (!isTop && isLeft) {
+      // Bottom-left corner
+      path.moveTo(0, 0);
+      path.lineTo(0, size.height);
+      path.lineTo(size.width, size.height);
+    } else {
+      // Bottom-right corner
+      path.moveTo(size.width, 0);
+      path.lineTo(size.width, size.height);
+      path.lineTo(0, size.height);
+    }
+
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }

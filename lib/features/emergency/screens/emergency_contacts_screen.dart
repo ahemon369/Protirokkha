@@ -10,206 +10,140 @@ class EmergencyContactsScreen extends StatefulWidget {
 }
 
 class _EmergencyContactsScreenState extends State<EmergencyContactsScreen> {
-  final List<EmergencyContact> _contacts = [
-    EmergencyContact(
-      name: 'জরুরি সেবা',
-      phone: '999',
-      relation: 'সরকারি সেবা',
-    ),
-    EmergencyContact(
-      name: 'ফায়ার সার্ভিস',
-      phone: '16163',
-      relation: 'জরুরি সেবা',
-    ),
+  final List<TextEditingController> _phoneControllers = [
+    TextEditingController(),
+    TextEditingController(),
+    TextEditingController(),
   ];
+
+  @override
+  void dispose() {
+    for (var controller in _phoneControllers) {
+      controller.dispose();
+    }
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F5F5),
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('জরুরি পরিচিতি'),
+        backgroundColor: Colors.white,
+        elevation: 0,
         centerTitle: true,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: _addContact,
-          ),
-        ],
-      ),
-      body: Column(
-        children: [
-          Expanded(
-            child: _contacts.isEmpty
-                ? Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.contacts,
-                          size: 80,
-                          color: Colors.grey.shade400,
-                        ),
-                        const SizedBox(height: 16),
-                        Text(
-                          'কোন জরুরি পরিচিতি নেই',
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.grey.shade600,
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
-                : ListView.builder(
-                    padding: const EdgeInsets.all(16),
-                    itemCount: _contacts.length,
-                    itemBuilder: (context, index) {
-                      return _buildContactCard(_contacts[index], index);
-                    },
-                  ),
-          ),
-          // Continue button
-          Padding(
-            padding: const EdgeInsets.all(24.0),
-            child: CustomButton(
-              text: 'পরবর্তী',
-              onPressed: () {
-                Navigator.pushReplacementNamed(context, AppRoutes.home);
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildContactCard(EmergencyContact contact, int index) {
-    return Card(
-      margin: const EdgeInsets.only(bottom: 12),
-      child: ListTile(
-        contentPadding: const EdgeInsets.all(16),
-        leading: CircleAvatar(
-          backgroundColor: const Color(0xFFD32F2F),
-          child: Text(
-            contact.name[0],
-            style: const TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-        title: Text(
-          contact.name,
-          style: const TextStyle(
+        title: const Text(
+          'সাইন আপ',
+          style: TextStyle(
             fontWeight: FontWeight.bold,
-            fontSize: 16,
+            fontSize: 20,
+            color: Color(0xFF212121),
           ),
         ),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 4),
-            Text(contact.phone),
-            Text(
-              contact.relation,
-              style: const TextStyle(
-                color: Color(0xFF757575),
-                fontSize: 12,
+      ),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            children: [
+              const SizedBox(height: 20),
+              // Red person/contact icon
+              Container(
+                width: 80,
+                height: 80,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFD32F2F),
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.person,
+                  size: 50,
+                  color: Colors.white,
+                ),
               ),
-            ),
-          ],
+              const SizedBox(height: 32),
+              // Instruction text
+              const Text(
+                '৩ টি ইমার্জেন্সি ফোন নম্বর দিন',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Color(0xFF212121),
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              const SizedBox(height: 32),
+              // Three phone input fields
+              ...List.generate(3, (index) {
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 16),
+                  child: TextField(
+                    controller: _phoneControllers[index],
+                    keyboardType: TextInputType.phone,
+                    decoration: InputDecoration(
+                      hintText: 'ফোন নম্বর ${index + 1}',
+                      filled: true,
+                      fillColor: const Color(0xFFF5F5F5),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide.none,
+                      ),
+                      suffixIcon: IconButton(
+                        icon: const Icon(
+                          Icons.add_circle_outline,
+                          color: Color(0xFF757575),
+                        ),
+                        onPressed: () {
+                          // Add contact action
+                        },
+                      ),
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 16,
+                      ),
+                    ),
+                  ),
+                );
+              }),
+              const SizedBox(height: 8),
+              // Grey add-more bar (placeholder - functionality to be implemented)
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF5F5F5),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.add,
+                      color: Color(0xFF757575),
+                    ),
+                    SizedBox(width: 8),
+                    Text(
+                      'আরো যোগ করুন',
+                      style: TextStyle(
+                        color: Color(0xFF757575),
+                        fontSize: 14,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const Spacer(),
+              // Submit button
+              CustomButton(
+                text: 'সাবমিট',
+                onPressed: () {
+                  Navigator.pushReplacementNamed(context, AppRoutes.home);
+                },
+              ),
+              const SizedBox(height: 16),
+            ],
+          ),
         ),
-        trailing: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            IconButton(
-              icon: const Icon(Icons.edit, color: Color(0xFF388E3C)),
-              onPressed: () {
-                _editContact(index);
-              },
-            ),
-            IconButton(
-              icon: const Icon(Icons.delete, color: Color(0xFFD32F2F)),
-              onPressed: () {
-                _deleteContact(index);
-              },
-            ),
-          ],
-        ),
       ),
     );
   }
-
-  void _addContact() {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('নতুন পরিচিতি যোগ করুন'),
-        content: const Text('এই ফিচার শীঘ্রই আসছে'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('ঠিক আছে'),
-          ),
-        ],
-      ),
-    );
-  }
-
-  void _editContact(int index) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('পরিচিতি সম্পাদনা করুন'),
-        content: const Text('এই ফিচার শীঘ্রই আসছে'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('ঠিক আছে'),
-          ),
-        ],
-      ),
-    );
-  }
-
-  void _deleteContact(int index) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('মুছে ফেলুন?'),
-        content: const Text('আপনি কি এই পরিচিতি মুছে ফেলতে চান?'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('বাতিল'),
-          ),
-          TextButton(
-            onPressed: () {
-              setState(() {
-                _contacts.removeAt(index);
-              });
-              Navigator.pop(context);
-            },
-            child: const Text(
-              'মুছে ফেলুন',
-              style: TextStyle(color: Color(0xFFD32F2F)),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class EmergencyContact {
-  final String name;
-  final String phone;
-  final String relation;
-
-  EmergencyContact({
-    required this.name,
-    required this.phone,
-    required this.relation,
-  });
 }

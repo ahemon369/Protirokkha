@@ -106,40 +106,35 @@ class _EmergencyContactsScreenState extends State<EmergencyContactsScreen> {
                 );
               }),
               const SizedBox(height: 8),
-              // Grey add-more bar
-              InkWell(
-                onTap: () {
-                  // Add more contacts action
-                },
-                child: Container(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFF5F5F5),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.add,
+              // Grey add-more bar (placeholder - functionality to be implemented)
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF5F5F5),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.add,
+                      color: Color(0xFF757575),
+                    ),
+                    SizedBox(width: 8),
+                    Text(
+                      'আরো যোগ করুন',
+                      style: TextStyle(
                         color: Color(0xFF757575),
+                        fontSize: 14,
                       ),
-                      SizedBox(width: 8),
-                      Text(
-                        'আরো যোগ করুন',
-                        style: TextStyle(
-                          color: Color(0xFF757575),
-                          fontSize: 14,
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
               const Spacer(),
               // Submit button
               CustomButton(
-                text: 'Submit',
+                text: 'সাবমিট',
                 onPressed: () {
                   Navigator.pushReplacementNamed(context, AppRoutes.home);
                 },

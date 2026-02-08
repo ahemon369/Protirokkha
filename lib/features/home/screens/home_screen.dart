@@ -12,7 +12,9 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
-  bool hasDefendersNearby = true; // Toggle this to test both states
+  // Toggle this flag to test both UI states (defenders active vs no defenders)
+  // In production, this should be populated from backend/location service
+  bool hasDefendersNearby = true;
 
   @override
   Widget build(BuildContext context) {

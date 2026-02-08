@@ -128,7 +128,7 @@ class _KycVerificationScreenState extends State<KycVerificationScreen> {
               const Spacer(),
               // Start button
               CustomButton(
-                text: 'Start',
+                text: 'শুরু করুন',
                 onPressed: () {
                   // Navigate to emergency contacts screen
                   Navigator.pushNamed(context, AppRoutes.emergencyContacts);

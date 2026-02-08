@@ -95,6 +95,7 @@ class _EmergencyContactsScreenState extends State<EmergencyContactsScreen> {
                 child: ListView.builder(
                   itemCount: _controllers.length,
                   itemBuilder: (context, index) {
+                    final isLastField = index == _controllers.length - 1;
                     return Padding(
                       padding: const EdgeInsets.only(bottom: AppSpacing.md),
                       child: CustomTextField(
@@ -112,13 +113,14 @@ class _EmergencyContactsScreenState extends State<EmergencyContactsScreen> {
                                 ),
                                 onPressed: () => _removeNumber(index),
                               ),
-                            IconButton(
-                              icon: const Icon(
-                                Icons.add_circle_outline,
-                                color: AppColors.primaryRed,
+                            if (isLastField)
+                              IconButton(
+                                icon: const Icon(
+                                  Icons.add_circle_outline,
+                                  color: AppColors.primaryRed,
+                                ),
+                                onPressed: _addMoreNumber,
                               ),
-                              onPressed: _addMoreNumber,
-                            ),
                           ],
                         ),
                       ),

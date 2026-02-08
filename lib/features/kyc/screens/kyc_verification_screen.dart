@@ -139,7 +139,7 @@ class KycVerificationScreen extends StatelessWidget {
                 onTap: () => _showPhotoTips(context),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
+                  children: [
                     Icon(
                       Icons.info_outline,
                       color: AppColors.primaryRed,

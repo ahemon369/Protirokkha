@@ -86,7 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
+              children: [
                 Icon(
                   Icons.map,
                   size: 80,
@@ -167,7 +167,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
-        children: const [
+        children: [
           Icon(
             Icons.shield,
             color: AppColors.white,
@@ -252,7 +252,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     color: AppColors.lightGrey,
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  child: const Row(
+                  child: Row(
                     children: [
                       Icon(Icons.search, color: AppColors.textGrey, size: 20),
                       SizedBox(width: AppSpacing.xs),
@@ -419,7 +419,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   child: Row(
-                    children: const [
+                    children: [
                       Icon(
                         Icons.warning_amber_rounded,
                         color: AppColors.warningOrange,
